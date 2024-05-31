@@ -12,7 +12,7 @@ player1_x = 0
 player2_x = screen_width -20
 player1_y = screen_height/2
 player2_y = screen_height/2
-ball_x=screen_width/2
+ball_x=100
 ball_y=screen_height/2
 player1_score=0
 player2_score=0
@@ -34,16 +34,21 @@ def colision(ballx,bally, recx:int,recy:int):
     Key=pygame.key.get_pressed()
     for x in range(recy,recy+150):
         if bally==x :
-            if ballx-15 <= recx+20 and left :
+            if ((ballx-15) <= (recx+20)) and left :
                 left=False
                 right=True
+                print("right")
                 if Key[pygame.K_w]:
                     up=True
                     down=False
+                    print("up")
                 elif Key[pygame.K_s]:
                     up=False
                     down=True
-            elif ballx+15 >= recx and right :
+                    print("down")
+                x=recy+151
+                continue
+            elif ((ballx+15) >= recx) and right :
                 left=True
                 right=False
                 if Key[pygame.K_w]:
@@ -52,6 +57,9 @@ def colision(ballx,bally, recx:int,recy:int):
                 elif Key[pygame.K_s]:
                     up=False
                     down=True
+                    
+                break
+            print("break")
     if(bally<=0):
         up=False
         down=True
@@ -70,6 +78,15 @@ def colision(ballx,bally, recx:int,recy:int):
         right=True
         left=False
         player1_score+=1
+    if left:
+        ball_x -= 3
+    elif right:
+        ball_x += 3
+    if down:
+        ball_y += 3
+    elif up:
+        ball_x -= 3
+    
 
 while running:
     # poll for events
@@ -108,11 +125,11 @@ while running:
 
     if keys[pygame.K_w]:
         player1_y -= 10
-    if keys[pygame.K_s]:
+    elif keys[pygame.K_s]:
         player1_y += 10
     if keys[pygame.K_i]:
         player2_y -= 10
-    if keys[pygame.K_k]:
+    elif keys[pygame.K_k]:
         player2_y += 10
 
     if (player1_y) > 600-150:
@@ -124,14 +141,6 @@ while running:
     if (player2_y) < 0:
         player2_y = 0
 
-    if left:
-        ball_x -= 3
-    if right:
-        ball_x += 3
-    if down:
-        ball_y += 3
-    if up:
-        ball_x -= 3
     
 
 
