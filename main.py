@@ -22,7 +22,7 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 running = True
 
-def colision(ballx,bally, recx:float,recy:float):
+def colision(ballx,bally, recx:int,recy:int):
     global right
     global left
     global down
@@ -102,8 +102,9 @@ while running:
 
     keys = pygame.key.get_pressed()
 
-    colision(ball_x,ball_y,player1_x,player1_y)
-    colision(ball_x,ball_y,player2_x,player2_y)
+    colision(ball_x,ball_y,int(player1_x),int(player1_y))
+    colision(ball_x,ball_y,int(player2_x),int(player2_y))
+
 
     if keys[pygame.K_w]:
         player1_y -= 10
@@ -131,6 +132,8 @@ while running:
         ball_y += 3
     if up:
         ball_x -= 3
+    
+
 
     pygame.display.flip()
 
