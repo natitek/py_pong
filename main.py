@@ -85,7 +85,7 @@ def colision(ballx,bally, recx:int,recy:int):
     if down:
         ball_y += 3
     elif up:
-        ball_x -= 3
+        ball_y -= 3
     
 
 while running:
