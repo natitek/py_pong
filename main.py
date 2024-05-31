@@ -12,7 +12,7 @@ player1_x = 0
 player2_x = screen_width -20
 player1_y = screen_height/2
 player2_y = screen_height/2
-ball_x=screen_width/2
+ball_x=100
 ball_y=screen_height/2
 player1_score=0
 player2_score=0
@@ -34,23 +34,27 @@ def colision():
     Key=pygame.key.get_pressed()
     
     
-    if ball_x <= player1_x and left :
+    if (ball_x-15) <= (player1_x+20) :
         for x in range(int(player1_y),int(player1_y+150)):
             if ball_y==x :
+                x=player1_y+151
                 left=False
                 right=True
+                print("right")
                 if Key[pygame.K_w]:
                     up=True
                     down=False
+                    print("up")
                 elif Key[pygame.K_s]:
                     up=False
                     down=True
-                break
+                
             print("bo")
             
-    elif ball_x+15 >= player2_x and right :
+    elif ball_x+15 >= player2_x :
             for x in range(int(player2_y),int(player2_y+150)):
                 if ball_y==x :
+                    x=player2_y+151
                     left=True
                     right=False
                     if Key[pygame.K_i]:
@@ -87,6 +91,7 @@ def colision():
         ball_y += 3
     if up:
         ball_y -= 3
+
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -121,11 +126,11 @@ while running:
 
     if keys[pygame.K_w]:
         player1_y -= 10
-    if keys[pygame.K_s]:
+    elif keys[pygame.K_s]:
         player1_y += 10
     if keys[pygame.K_i]:
         player2_y -= 10
-    if keys[pygame.K_k]:
+    elif keys[pygame.K_k]:
         player2_y += 10
 
     if (player1_y) > 600-150:
@@ -136,7 +141,6 @@ while running:
         player2_y = 600-150
     if (player2_y) < 0:
         player2_y = 0
-
 
     pygame.display.flip()
 
