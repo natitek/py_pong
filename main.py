@@ -16,6 +16,7 @@ ball_x=100
 ball_y=screen_height/2
 player1_score=0
 player2_score=0
+on_bord=False
 choice=input("1,singleplayer 2,multiplayer \n")
 if(int(choice)==1):
     multi=False
@@ -37,20 +38,29 @@ def ai():
     global right
     global left
     global multi
-
+    global on_bord
     #makes the pad proportional to the balls y position
     if(ball_x>=(screen_width/2)and not(multi) and right):
-        if(ball_y>(player2_y+75)):
+        if(ball_y>(player2_y+75) and ( ball_x < player2_x-20 )):
             player2_y+=5
-        elif(ball_y<(player2_y+75)):
+        elif(ball_y<(player2_y+75) and ( ball_x < player2_x-20 )):
             player2_y-=5
-        
+        if (ball_x>=player2_x-40) and (player1_y>=(screen_height/2) and (ball_y>=player1_y and ball_y<=player1_y+150)):
+            player2_y+=5
+        elif (ball_x>=player2_x-40) and(player1_y<(screen_height/2) and (ball_y>=player1_y and ball_y<=player1_y+150)):
+            player2_y-=5
 #returns the pad to the center
     elif(not(multi) and left):
         if((player2_y+75)>(screen_height/2)):
             player2_y-=5
+             #makes sure the bord doesn't vibrate going back and forth
+            if((player2_y+75)>=(screen_height/2)-10 and (player2_y+75)<=(screen_height/2)+10):
+                player2_y=(screen_height/2)-75
         elif((player2_y+75)<(screen_height/2)):
             player2_y+=5
+            #makes sure the bord doesn't vibrate going back and forth
+            if((player2_y+75)>=(screen_height/2)-10 and (player2_y+75)<=(screen_height/2)+10):
+                player2_y=(screen_height/2)-75
 def colision():
     global right
     global left
@@ -66,6 +76,7 @@ def colision():
     global player1_score
     global player2_score
     global multi
+    global on_bord
     Key=pygame.key.get_pressed()
     
     #userone ball contact
@@ -96,18 +107,20 @@ def colision():
                         up=False
                         down=True
                     #ai logic
-                    if ball_y<(player2_y+75)and not(multi):
+                    if (ball_x>=player2_x-20) and not(multi) and (player1_y>=(screen_height/2)):
                         up=True
                         down=False
-                    elif ball_y>(player2_y+75) and not(multi):
+                    elif (ball_x>=player2_x-20) and not(multi) and (player1_y<(screen_height/2)):
                         up=False
                         down=True
-
+                
                         #frame contact
+    if on_bord:
+        print("on_bord")
     if(ball_y<=0):
         up=False
         down=True
-    elif(ball_y>=600):
+    elif(ball_y>=screen_height):
         down=False
         up=True
     if(ball_x<=0):
@@ -118,7 +131,7 @@ def colision():
         up=False
         down=False
         player2_score+=1
-    elif(ball_x>=1000):
+    elif(ball_x>=screen_width):
         ball_x=screen_width/2
         ball_y=screen_height/2
         right=True
